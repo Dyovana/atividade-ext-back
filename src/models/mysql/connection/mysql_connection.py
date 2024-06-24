@@ -132,8 +132,38 @@ class MySqlConnectionHandle:
 
         self.execute_sql_transaction(sql, tuple(values))
 
+    def get_all_info(self, cpf):
+        final_result = {}
+        sql = """
+            SELECT cpf, full_name, phone_number, city, address, email
+            FROM usuario
+            WHERE cpf = %s
+        """
+
+        try:
+            self.__cursor.execute(sql, (cpf, ))
+            result = self.__cursor.fetchone()
+            if result:
+                user = User(
+                    cpf=result[0],
+                    full_name=result[1],
+                    phone_number=result[2],
+                    city=result[3],
+                    address=result[4],
+                    email=result[5],
+                )
+                final_result["user"] = user
+            else:
+                raise HTTPException(status_code=404, detail="Item not found")
+
+            final_result["dependent"] = self.get_dependent(cpf)
+
+            return final_result
+
+        except mysql.connector.Error as err:
+            raise HTTPException(status_code=500, detail=err)
+
     def close_connection(self):
         self.__cursor.close()
         self.__connection.close()
         print("DB connection closed")
-

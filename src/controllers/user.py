@@ -33,3 +33,9 @@ def get_user(email: str, encoded_password, service_db: MySqlConnectionHandle = D
 @app.put("/{cpf}")
 def update_user(cpf: str, data: dict, service_db: MySqlConnectionHandle = Depends(get_db)):
     service_db.update_user(cpf, data)
+
+
+@app.get("/all-info/{cpf}")
+def get_all_info(cpf: str, service_db: MySqlConnectionHandle = Depends(get_db)):
+    result = service_db.get_all_info(cpf)
+    return result
