@@ -5,7 +5,7 @@
 
 - Docker
 - Python 3.10
-- Dependências requirements.txt
+- Dependências requirements.txt (pip install -r requirements.txt)
 - Linux
 
 ### Comandos
