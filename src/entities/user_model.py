@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class User(BaseModel):
     cpf: str
     full_name: str
-    phone_number: int
+    phone_number: str
     city: str
     address: str
     email: str
